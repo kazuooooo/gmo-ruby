@@ -40,3 +40,9 @@ guard :rspec, cmd: "bundle exec rspec --format Fuubar" do
   ruby = dsl.ruby
   dsl.watch_spec_files_for(ruby.lib_files)
 end
+
+guard 'yard' do
+  watch(%r{app/.+\.rb})
+  watch(%r{lib/.+\.rb})
+  watch(%r{ext/.+\.c})
+end
