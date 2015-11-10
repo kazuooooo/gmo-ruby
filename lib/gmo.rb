@@ -1,3 +1,5 @@
+require "faraday"
+
 require "gmo/version"
 require "gmo/client"
 
