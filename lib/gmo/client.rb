@@ -483,7 +483,8 @@ module GMO
     # @return [Faraday::Connection] 通信コネクション
     def conn
       @conn ||= Faraday.new(@options) { |conn|
-        conn.request :url_encoded
+        conn.request  :gmo
+        conn.response :gmo
         conn.adapter Faraday.default_adapter
       }
     end
