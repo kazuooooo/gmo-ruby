@@ -1,7 +1,7 @@
 module GMO
   module FaradayMiddleware
-    autoload :Request,  'gmo/faraday_middleware/request'
-    autoload :Response, 'gmo/faraday_middleware/response'
+    autoload :Request,       'gmo/faraday_middleware/request'
+    autoload :Response,      'gmo/faraday_middleware/response'
     autoload :RaiseGMOError, 'gmo/faraday_middleware/raise_gmo_error'
 
     Faraday::Request.register_middleware  gmo: Request
