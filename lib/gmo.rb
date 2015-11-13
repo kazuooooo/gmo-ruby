@@ -1,6 +1,7 @@
 require "faraday"
 
 require "gmo/version"
+require "gmo/errors"
 require "gmo/faraday_middleware"
 require "gmo/client"
 require "gmo/payload"
