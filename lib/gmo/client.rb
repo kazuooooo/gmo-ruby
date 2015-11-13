@@ -484,6 +484,7 @@ module GMO
     def conn
       @conn ||= Faraday.new(@options) { |conn|
         conn.request  :gmo
+        conn.response :raise_gmo_error
         conn.response :gmo
         conn.adapter  Faraday.default_adapter
       }
