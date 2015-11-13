@@ -485,7 +485,7 @@ module GMO
       @conn ||= Faraday.new(@options) { |conn|
         conn.request  :gmo
         conn.response :gmo
-        conn.adapter Faraday.default_adapter
+        conn.adapter  Faraday.default_adapter
       }
     end
   end
