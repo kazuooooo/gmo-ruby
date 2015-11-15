@@ -8,20 +8,52 @@ require "gmo/payload"
 
 module GMO
   class Configuration
-    # [String] url エンドポイントURL
+    # @return [String] エンドポイントURL
     attr_accessor :url
-    # [Hash] headers HTTPヘッダ
+
+    # @return [Hash] HTTPヘッダ
     attr_accessor :headers
-    # [Hash] request リクエストオプション
+
+    # @return [Hash] リクエストオプション
+    #
+    # @example リクエストタイムアウトを設定する
+    #   config.request = {
+    #     timeout:      ..., # 通信タイムアウト(秒)
+    #     open_timeout: ..., # 接続タイムアウト(秒)
+    #   }
     attr_accessor :request
-    # [Hash] ssl SSLオプション
+
+    # @return [Hash] SSLオプション
+    #
+    # @example SSLを無効にする
+    #   config.ssl = false
+    #
+    # @example 通信先のSSL証明書の検証を無効にする
+    #   config.ssl = {verify: false}
+    #
+    # @example その他のSSLオプションを設定する
+    #   config.ssl = {
+    #     client_cert: ...,
+    #     client_key:  ...,
+    #     ca_file:     ...,
+    #     ca_path:     ...,
+    #     cert_store:  ...,
+    #   }
     attr_accessor :ssl
-    # [Hash] proxy プロキシオプション
+
+    # @return [Hash] プロキシオプション
+    #
+    # @example プロキシを設定する
+    #   config.proxy = {
+    #     uri:      ...,
+    #     user:     ..., # optional
+    #     password: ..., # optional
+    #   }
     attr_accessor :proxy
   end
 
   class << self
-    # [GMO::Configuration] 設定情報
+    # @return [GMO::Configuration] 設定情報
     attr_accessor :config
   end
 
@@ -31,33 +63,7 @@ module GMO
   #
   # @yieldparam [GMO::Configuration] config 設定情報
   #
-  # @example リクエストタイムアウトを設定する
-  #   config.request = {
-  #     timeout:      ..., # 通信タイムアウト(秒)
-  #     open_timeout: ..., # 接続タイムアウト(秒)
-  #   }
-  #
-  # @example SSLを無効にする
-  #   config.ssl = false
-  #
-  # @example 通信先のSSL証明書の検証を無効にする
-  #   config.ssl = {verify: false}
-  #
-  # @example その他のSSLオプションを設定する
-  #   config.ssl = {
-  #     client_cert: ...,
-  #     client_key:  ...,
-  #     ca_file:     ...,
-  #     ca_path:     ...,
-  #     cert_store:  ...,
-  #   }
-  #
-  # @example プロキシを設定する
-  #   config.proxy = {
-  #     uri:      ...,
-  #     user:     ..., # optional
-  #     password: ..., # optional
-  #   }
+  # @see GMO::Configuration
   def self.configure
     self.config ||= Configuration.new
     yield config if block_given?
