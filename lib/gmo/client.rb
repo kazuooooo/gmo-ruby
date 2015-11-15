@@ -4,9 +4,11 @@ module GMO
     #
     # @option options [String] :url エンドポイントURL
     # @option options [Hash] :headers HTTPヘッダ
+    # @option options [Hash] :request リクエストオプション
     # @option options [Hash] :ssl SSLオプション
     # @option options [Hash] :proxy プロキシオプション
     #
+    # @see GMO::Configuration
     # @see Faraday#new
     def initialize(options)
       @options = options
