@@ -1,12 +1,15 @@
 require "faraday"
 
 require "gmo/version"
+require "gmo/consts"
 require "gmo/errors"
 require "gmo/faraday_middleware"
 require "gmo/client"
 require "gmo/payload"
 
 module GMO
+  include Consts
+
   class Configuration
     # @return [String] エンドポイントURL
     attr_accessor :url
