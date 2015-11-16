@@ -639,7 +639,7 @@ module GMO
     def conn
       @conn ||= Faraday.new(options) { |conn|
         conn.use     GMO::FaradayMiddleware
-        conn.adapter  Faraday.default_adapter
+        conn.adapter Faraday.default_adapter
       }
     end
   end
