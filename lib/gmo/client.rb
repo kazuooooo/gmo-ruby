@@ -11,6 +11,8 @@ module GMO
     # @option options [Hash] :request リクエストオプション
     # @option options [Hash] :ssl SSLオプション
     # @option options [Hash] :proxy プロキシオプション
+    # @option options [Boolean] :raise_on_gmo_error
+    #   GMOのレスポンスがエラーの場合に{GMO::Errors}を発生させるかどうか
     #
     # @see GMO::Configuration
     # @see Faraday#new
@@ -638,13 +640,19 @@ module GMO
     # @return [Hash] 通信コネクション用のオプション
     def connection_options
       options.
-        delete_if{ |k, _| [:raise_on_gmo_error].include?(k) }
+        select{ |k, _| ![:raise_on_gmo_error].include?(k) }
+    end
+
+    # @return [Hash] {GMO::FaradayMiddleware}用のオプション
+    def middleware_options
+      options.
+        select{ |k, _| [:raise_on_gmo_error].include?(k) }
     end
 
     # @return [Faraday::Connection] 通信コネクション
     def conn
       @conn ||= Faraday.new(connection_options) { |conn|
-        conn.use     GMO::FaradayMiddleware
+        conn.use     GMO::FaradayMiddleware, middleware_options
         conn.adapter Faraday.default_adapter
       }
     end

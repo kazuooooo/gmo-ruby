@@ -20,6 +20,7 @@ describe GMO::Client do
   Given(:stub_url) { 'https://mock.mul-pay.jp' }
   Given(:client_options) { {
     url: stub_url,
+    raise_on_gmo_error: false,
   } }
   Given(:client) { described_class.new(client_options) }
 
@@ -58,6 +59,8 @@ describe GMO::Client do
         [
           :access_id,
           :access_pass,
+          :err_code,
+          :err_info,
         ],
       ],
       [
@@ -76,6 +79,8 @@ describe GMO::Client do
         [
           :access_id,
           :access_pass,
+          :err_code,
+          :err_info,
         ],
       ],
       [
@@ -94,6 +99,8 @@ describe GMO::Client do
         [
           :access_id,
           :access_pass,
+          :err_code,
+          :err_info,
         ],
       ],
       [
@@ -112,6 +119,8 @@ describe GMO::Client do
         [
           :access_id,
           :access_pass,
+          :err_code,
+          :err_info,
         ],
       ],
     ].each do |(description, req, res)|
@@ -162,6 +171,8 @@ describe GMO::Client do
           :client_field1,
           :client_field2,
           :client_field3,
+          :err_code,
+          :err_info,
         ],
       ],
       [
@@ -223,6 +234,8 @@ describe GMO::Client do
           :client_field1,
           :client_field2,
           :client_field3,
+          :err_code,
+          :err_info,
         ],
       ],
       [
@@ -291,6 +304,8 @@ describe GMO::Client do
           :client_field1,
           :client_field2,
           :client_field3,
+          :err_code,
+          :err_info,
         ],
       ],
     ].each do |(description, req, res)|
@@ -327,6 +342,8 @@ describe GMO::Client do
           :approve,
           :tran_id,
           :tran_date,
+          :err_code,
+          :err_info,
         ],
       ],
       [
@@ -349,6 +366,8 @@ describe GMO::Client do
           :approve,
           :tran_id,
           :tran_date,
+          :err_code,
+          :err_info,
         ],
       ],
       [
@@ -368,6 +387,8 @@ describe GMO::Client do
           :approve,
           :tran_id,
           :tran_date,
+          :err_code,
+          :err_info,
         ],
       ],
     ].each do |(description, req, res)|
@@ -406,6 +427,8 @@ describe GMO::Client do
           :approve,
           :tran_id,
           :tran_date,
+          :err_code,
+          :err_info,
         ],
       ],
     ].each do |(description, req, res)|
@@ -455,6 +478,8 @@ describe GMO::Client do
           :client_field1,
           :client_field2,
           :client_field3,
+          :err_code,
+          :err_info,
         ],
       ],
     ].each do |(description, req, res)|
@@ -493,6 +518,8 @@ describe GMO::Client do
           :card_seq,
           :card_no,
           :forward,
+          :err_code,
+          :err_info,
         ],
       ],
     ].each do |(description, req, res)|
@@ -523,6 +550,8 @@ describe GMO::Client do
         ],
         [
           :member_id,
+          :err_code,
+          :err_info,
         ],
       ],
     ].each do |(description, req, res)|
@@ -553,6 +582,8 @@ describe GMO::Client do
         ],
         [
           :member_id,
+          :err_code,
+          :err_info,
         ],
       ],
     ].each do |(description, req, res)|
@@ -582,6 +613,8 @@ describe GMO::Client do
         ],
         [
           :member_id,
+          :err_code,
+          :err_info,
         ],
       ],
     ].each do |(description, req, res)|
@@ -611,6 +644,10 @@ describe GMO::Client do
         ],
         [
           :member_id,
+          :member_name,
+          :delete_flag,
+          :err_code,
+          :err_info,
         ],
       ],
     ].each do |(description, req, res)|
@@ -650,6 +687,8 @@ describe GMO::Client do
           :card_seq,
           :card_no,
           :forward,
+          :err_code,
+          :err_info,
         ],
       ],
     ].each do |(description, req, res)|
@@ -681,6 +720,8 @@ describe GMO::Client do
         ],
         [
           :card_seq,
+          :err_code,
+          :err_info,
         ],
       ],
     ].each do |(description, req, res)|
@@ -718,6 +759,8 @@ describe GMO::Client do
           :expire,
           :holder_name,
           :delete_flag,
+          :err_code,
+          :err_info,
         ],
       ],
       [
@@ -737,6 +780,8 @@ describe GMO::Client do
           :expire,
           :holder_name,
           :delete_flag,
+          :err_code,
+          :err_info,
         ],
       ],
       [
@@ -756,6 +801,8 @@ describe GMO::Client do
           :expire,
           :holder_name,
           :delete_flag,
+          :err_code,
+          :err_info,
         ],
       ],
     ].each do |(description, req, res)|
