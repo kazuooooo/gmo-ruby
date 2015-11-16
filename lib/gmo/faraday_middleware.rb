@@ -1,11 +1,20 @@
 module GMO
-  module FaradayMiddleware
-    autoload :Request,       'gmo/faraday_middleware/request'
-    autoload :Response,      'gmo/faraday_middleware/response'
-    autoload :RaiseGMOError, 'gmo/faraday_middleware/raise_gmo_error'
+  class FaradayMiddleware < Faraday::Middleware
+    # リクエスト/レスポンスのハンドリング
+    #
+    # @param [Faraday::Env] req_env リクエスト情報
+    def call(req_env)
+      req_env[:body] = GMO::Payload.dump(req_env[:body]) if req_env[:body]
+      @app.call(req_env).on_complete do |res_env|
+        if res_env[:body]
+          res_env[:body] = GMO::Payload.load(res_env[:body])
 
-    Faraday::Request.register_middleware  gmo: Request
-    Faraday::Response.register_middleware gmo: Response
-    Faraday::Response.register_middleware raise_gmo_error: RaiseGMOError
+          body = res_env[:body]
+          if body[:err_code] || body[:err_info]
+            raise GMO::Errors.new(body[:err_code], body[:err_info])
+          end
+        end
+      end
+    end
   end
 end
