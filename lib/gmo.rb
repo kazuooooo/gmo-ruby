@@ -50,6 +50,19 @@ module GMO
     #     password: ..., # optional
     #   }
     attr_accessor :proxy
+
+    def initialize
+      @request = default_request
+    end
+
+    # デフォルトのリクエストオプションを取得
+    #
+    # @return [Hash] デフォルトのリクエストオプション
+    def default_request
+      {
+        timeout: 90, # 90秒（本人認証サービスを利用する場合は120秒程度を推奨）
+      }
+    end
   end
 
   class << self
