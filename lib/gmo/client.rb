@@ -200,7 +200,7 @@ module GMO
     #     #   md:      ..., # 取引ID
     #     # }
     def exec_tran(payload)
-      conn.post '/payment/ExecTran.idPass', payload
+      conn.post('/payment/ExecTran.idPass', payload)
     end
 
     # 認証後決済実行
