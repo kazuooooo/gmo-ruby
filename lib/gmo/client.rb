@@ -1,5 +1,9 @@
 module GMO
   class Client
+    # @return [Hash] 設定情報
+    # @see GMO::Configuration
+    attr_accessor :options
+
     # @param [Hash] options オプション
     #
     # @option options [String] :url エンドポイントURL
@@ -10,8 +14,8 @@ module GMO
     #
     # @see GMO::Configuration
     # @see Faraday#new
-    def initialize(options)
-      @options = options
+    def initialize(options = nil)
+      @options = GMO.config.to_hash.merge(options || {})
     end
 
     # 取引登録
@@ -634,7 +638,7 @@ module GMO
 
     # @return [Faraday::Connection] 通信コネクション
     def conn
-      @conn ||= Faraday.new(@options) { |conn|
+      @conn ||= Faraday.new(options) { |conn|
         conn.request  :gmo
         conn.response :raise_gmo_error
         conn.response :gmo

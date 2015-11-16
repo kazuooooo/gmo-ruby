@@ -7,6 +7,23 @@ describe GMO::Client do
   } }
   Given(:client) { described_class.new(client_options) }
 
+  context '#initialize' do
+    context 'no options parameter given' do
+      When (:client) { described_class.new }
+      Then { client.options == GMO.config.to_hash }
+    end
+
+    context 'options parameter given' do
+      Given(:options) { {
+        url:    stub_url,
+        ssl:    false,
+        proxy: 'http://localhost',
+      } }
+      When (:client) { described_class.new(options) }
+      Then { client.options == GMO.config.to_hash.merge(options) }
+    end
+  end
+
   context '#entry_tran' do
     Given(:payload) { {} }
     When (:result) {
