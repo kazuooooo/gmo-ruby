@@ -65,9 +65,11 @@ module GMO
     end
   end
 
-  class << self
-    # @return [GMO::Configuration] 設定情報
-    attr_accessor :config
+  # 設定情報を取得
+  #
+  # @return [GMO::Configuration] 設定情報
+  def self.config
+    @config ||= Configuration.new
   end
 
   # モジュールの設定を行う
@@ -78,7 +80,6 @@ module GMO
   #
   # @see GMO::Configuration
   def self.configure
-    self.config ||= Configuration.new
     yield config if block_given?
   end
 end
