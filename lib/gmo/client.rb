@@ -50,7 +50,7 @@ module GMO
     #     #   err_info:    ..., # エラー詳細コード
     #     # }
     def entry_tran(payload)
-      conn.post '/payment/EntryTran.idPass', payload
+      conn.post('/payment/EntryTran.idPass', payload)
     end
 
     # 決済実行
@@ -232,7 +232,7 @@ module GMO
     #     #   err_info:      ..., # エラー詳細コード
     #     # }
     def secure_tran(payload)
-      conn.post '/payment/SecureTran.idPass', payload
+      conn.post('/payment/SecureTran.idPass', payload)
     end
 
     # 決済変更
@@ -315,7 +315,7 @@ module GMO
     #     #   err_info:    ..., # エラー詳細コード
     #     # }
     def alter_tran(payload)
-      conn.post '/payment/AlterTran.idPass', payload
+      conn.post('/payment/AlterTran.idPass', payload)
     end
 
     # 金額変更
@@ -349,7 +349,7 @@ module GMO
     #     #   err_info:    ..., # エラー詳細コード
     #     # }
     def change_tran(payload)
-      conn.post '/payment/ChangeTran.idPass', payload
+      conn.post('/payment/ChangeTran.idPass', payload)
     end
 
     # 取引状態参照
@@ -394,7 +394,7 @@ module GMO
     #     #   err_info:      ..., # エラー詳細コード
     #     # }
     def search_trade(payload)
-      conn.post '/payment/SearchTrade.idPass', payload
+      conn.post('/payment/SearchTrade.idPass', payload)
     end
 
     # 決済後カード登録
@@ -428,7 +428,7 @@ module GMO
     #     #   err_info: ..., # エラー詳細コード
     #     # }
     def traded_card(payload)
-      conn.post '/payment/TradedCard.idPass', payload
+      conn.post('/payment/TradedCard.idPass', payload)
     end
 
     # 会員登録
@@ -454,7 +454,7 @@ module GMO
     #     #   err_info:  ..., # エラー詳細コード
     #     # }
     def save_member(payload)
-      conn.post '/payment/SaveMember.idPass', payload
+      conn.post('/payment/SaveMember.idPass', payload)
     end
 
     # 会員更新
@@ -480,7 +480,7 @@ module GMO
     #     #   err_info:  ..., # エラー詳細コード
     #     # }
     def update_member(payload)
-      conn.post '/payment/UpdateMember.idPass', payload
+      conn.post('/payment/UpdateMember.idPass', payload)
     end
 
     # 会員削除
@@ -505,7 +505,7 @@ module GMO
     #     #   err_info:  ..., # エラー詳細コード
     #     # }
     def delete_member(payload)
-      conn.post '/payment/DeleteMember.idPass', payload
+      conn.post('/payment/DeleteMember.idPass', payload)
     end
 
     # 会員参照
@@ -532,7 +532,7 @@ module GMO
     #     #   err_info:    ..., # エラー詳細コード
     #     # }
     def search_member(payload)
-      conn.post '/payment/SearchMember.idPass', payload
+      conn.post('/payment/SearchMember.idPass', payload)
     end
 
     # カード登録／更新
@@ -567,7 +567,7 @@ module GMO
     #     #   err_info: ..., # エラー詳細コード
     #     # }
     def save_card(payload)
-      conn.post '/payment/SaveCard.idPass', payload
+      conn.post('/payment/SaveCard.idPass', payload)
     end
 
     # カード削除
@@ -595,7 +595,7 @@ module GMO
     #     # }
     def delete_card(payload)
       # 2.8. カード情報の削除をする
-      conn.post '/payment/DeleteCard.idPass', payload
+      conn.post('/payment/DeleteCard.idPass', payload)
     end
 
     # カード参照
@@ -630,7 +630,7 @@ module GMO
     #     #   err_info:     ..., # エラー詳細コード
     #     # }
     def search_card(payload)
-      conn.post '/payment/SearchCard.idPass', payload
+      conn.post('/payment/SearchCard.idPass', payload)
     end
 
     private
