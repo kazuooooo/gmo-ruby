@@ -669,7 +669,7 @@ describe GMO::Client do
   context '#save_card' do
     [
       [
-        '2.7. カード譲歩を登録または更新する',
+        '2.7. カード情報を登録または更新する',
         [
           :site_id,
           :site_pass,

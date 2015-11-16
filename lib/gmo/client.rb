@@ -544,7 +544,7 @@ module GMO
     # @return [Faraday::Response] カード登録／更新結果
     #
     # @example
-    #   # 2.7. カード譲歩を登録または更新する
+    #   # 2.7. カード情報を登録または更新する
     #   res = client.save_card(
     #     site_id:      ..., # サイトID
     #     site_pass:    ..., # サイトパスワード
