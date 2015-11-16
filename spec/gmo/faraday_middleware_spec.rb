@@ -8,12 +8,13 @@ describe GMO::FaradayMiddleware do
     }
     Given(:conn) {
       Faraday.new() { |conn|
-        conn.use     described_class
+        conn.use     described_class, options
         conn.adapter Faraday.default_adapter
       }
     }
 
     context 'GMO returns success response' do
+      Given(:options) { {} }
       Given(:res_payload) {
         GMO::Payload::PAYLOAD_TO_KEY.
           invert.
@@ -37,15 +38,33 @@ describe GMO::FaradayMiddleware do
           invert.
           select{ |k, _| [:err_code, :err_info].include?(k) }
       }
-      When {
-        stub_request(:post, dummy_url).
-          with(body: GMO::Payload.dump(req_payload)).
-          to_return(
-            status: 200,
-            body:   res_payload.map{ |_, v| "#{v}=#{v}" }.join('&')
-          )
-      }
-      Then { expect{ conn.post(dummy_url, req_payload) }.to raise_error(GMO::Errors) }
+
+      context ':raise_on_gmo_error option is true' do
+        Given(:options) { {raise_on_gmo_error: true} }
+        When {
+          stub_request(:post, dummy_url).
+            with(body: GMO::Payload.dump(req_payload)).
+            to_return(
+              status: 200,
+              body:   res_payload.map{ |_, v| "#{v}=#{v}" }.join('&')
+            )
+        }
+        Then { expect{ conn.post(dummy_url, req_payload) }.to raise_error(GMO::Errors) }
+      end
+
+      context ':raise_on_gmo_error option is false' do
+        Given(:options) { {raise_on_gmo_error: false} }
+        When (:response) {
+          stub_request(:post, dummy_url).
+            with(body: GMO::Payload.dump(req_payload)).
+            to_return(
+              status: 200,
+              body:   res_payload.map{ |_, v| "#{v}=#{v}" }.join('&')
+            )
+          conn.post(dummy_url, req_payload)
+        }
+        Then { response.body == res_payload }
+      end
     end
   end
 end
