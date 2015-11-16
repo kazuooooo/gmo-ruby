@@ -20,7 +20,7 @@ end
 describe GMO::Configuration do
   Given(:config) { described_class.new }
 
-  context 'default value' do
+  context '#initialize' do
     Then { config.request == config.default_request }
   end
 end
