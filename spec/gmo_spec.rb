@@ -22,6 +22,7 @@ describe GMO::Configuration do
 
   context '#initialize' do
     Then { config.request == config.default_request }
+    Then { config.raise_on_gmo_error == config.raise_on_gmo_error }
   end
 
   context '#to_hash' do
@@ -48,6 +49,6 @@ describe GMO::Configuration do
         config.send :"#{k}=", v
       end
     }
-    Then { config.to_hash == config_hash }
+    Then { config.to_hash == described_class.new.to_hash.merge(config_hash) }
   end
 end

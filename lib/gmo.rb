@@ -51,8 +51,12 @@ module GMO
     #   }
     attr_accessor :proxy
 
+    # @return [Boolean] GMOのレスポンスがエラーの場合に{GMO::Errors}を発生させるかどうか
+    attr_accessor :raise_on_gmo_error
+
     def initialize
       @request = default_request
+      @raise_on_gmo_error = default_raise_on_gmo_error
     end
 
     # デフォルトのリクエストオプションを取得
@@ -62,6 +66,13 @@ module GMO
       {
         timeout: 90, # 90秒（本人認証サービスを利用する場合は120秒程度を推奨）
       }
+    end
+
+    # デフォルトのGMOのレスポンスがエラーの場合に{GMO::Errors}を発生させるかどうかを取得
+    #
+    # @return [Boolean] GMOのレスポンスがエラーの場合に{GMO::Errors}を発生させるかどうか
+    def default_raise_on_gmo_error
+      true
     end
 
     # Hashオブジェクトに変換
