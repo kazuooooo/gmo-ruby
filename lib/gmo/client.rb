@@ -635,9 +635,15 @@ module GMO
 
     private
 
+    # @return [Hash] 通信コネクション用のオプション
+    def connection_options
+      options.
+        delete_if{ |k, _| [:raise_on_gmo_error].include?(k) }
+    end
+
     # @return [Faraday::Connection] 通信コネクション
     def conn
-      @conn ||= Faraday.new(options) { |conn|
+      @conn ||= Faraday.new(connection_options) { |conn|
         conn.use     GMO::FaradayMiddleware
         conn.adapter Faraday.default_adapter
       }

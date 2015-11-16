@@ -55,24 +55,21 @@ module GMO
     attr_accessor :raise_on_gmo_error
 
     def initialize
-      @request = default_request
-      @raise_on_gmo_error = default_raise_on_gmo_error
+      self.class.default_values.each do |name, value|
+        instance_variable_set :"@#{name}", value
+      end
     end
 
-    # デフォルトのリクエストオプションを取得
+    # 設定情報のデフォルト値を取得
     #
-    # @return [Hash] デフォルトのリクエストオプション
-    def default_request
+    # @return [Hash] 設定情報のデフォルト値
+    def self.default_values
       {
-        timeout: 90, # 90秒（本人認証サービスを利用する場合は120秒程度を推奨）
+        request: {
+          timeout: 90, # 90秒（本人認証サービスを利用する場合は120秒程度を推奨）
+        },
+        raise_on_gmo_error: true,
       }
-    end
-
-    # デフォルトのGMOのレスポンスがエラーの場合に{GMO::Errors}を発生させるかどうかを取得
-    #
-    # @return [Boolean] GMOのレスポンスがエラーの場合に{GMO::Errors}を発生させるかどうか
-    def default_raise_on_gmo_error
-      true
     end
 
     # Hashオブジェクトに変換

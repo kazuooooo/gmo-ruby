@@ -21,8 +21,11 @@ describe GMO::Configuration do
   Given(:config) { described_class.new }
 
   context '#initialize' do
-    Then { config.request == config.default_request }
-    Then { config.raise_on_gmo_error == config.raise_on_gmo_error }
+    Then {
+      described_class.default_values.each do |prop, value|
+        expect(config.send(prop)).to eq(value)
+      end
+    }
   end
 
   context '#to_hash' do
@@ -49,6 +52,6 @@ describe GMO::Configuration do
         config.send :"#{k}=", v
       end
     }
-    Then { config.to_hash == described_class.new.to_hash.merge(config_hash) }
+    Then { config.to_hash == described_class.default_values.merge(config_hash) }
   end
 end
