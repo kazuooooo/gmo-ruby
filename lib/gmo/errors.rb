@@ -2,13 +2,13 @@ module GMO
   class Errors < StandardError
     include Enumerable
 
-    # [String] 複数のエラーの接続文字
+    # 複数のエラーの接続文字
     SEPARATOR = '|'
 
-    # [Array<String>] エラーコード
+    # @return [Array<String>] エラーコード
     attr_reader :err_code
 
-    # [Array<String>] エラー詳細コード
+    # @return [Array<String>] エラー詳細コード
     attr_reader :err_info
 
     # @param [String] err_code エラーコード(複数の場合は"|"で接続された文字列)
