@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'gmo/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "gmo"
+  spec.name          = "gmo-ruby"
   spec.version       = GMO::VERSION
   spec.authors       = ["kissy2go"]
   spec.email         = ["kissy2go@gmail.com"]
