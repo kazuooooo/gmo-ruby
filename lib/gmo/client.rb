@@ -638,9 +638,7 @@ module GMO
     # @return [Faraday::Connection] 通信コネクション
     def conn
       @conn ||= Faraday.new(options) { |conn|
-        conn.request  :gmo
-        conn.response :raise_gmo_error
-        conn.response :gmo
+        conn.use     GMO::FaradayMiddleware
         conn.adapter  Faraday.default_adapter
       }
     end
