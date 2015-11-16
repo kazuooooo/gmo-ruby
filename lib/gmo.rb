@@ -63,6 +63,16 @@ module GMO
         timeout: 90, # 90秒（本人認証サービスを利用する場合は120秒程度を推奨）
       }
     end
+
+    # Hashオブジェクトに変換
+    #
+    # @return [Hash] Hashオブジェクトの設定情報
+    def to_hash
+      instance_variables.each_with_object({}) { |instance_variable_name, config|
+        property = instance_variable_name.to_s.gsub(/@/, '').to_sym
+        config[property] = send(property)
+      }
+    end
   end
 
   # 設定情報を取得

@@ -23,4 +23,31 @@ describe GMO::Configuration do
   context '#initialize' do
     Then { config.request == config.default_request }
   end
+
+  context '#to_hash' do
+    Given(:config_hash) { {
+      url:     'https://example.com',
+      headers: {
+        :'Content-Type' => 'text/plain',
+      },
+      request: {
+        timeout:      10,
+        open_timeout:  2,
+      },
+      ssl:     {
+        verify: false,
+      },
+      proxy:   {
+        uri:      'http://dummyhost',
+        user:     'dummyuser',
+        password: 'dummypassword',
+      },
+    } }
+    When {
+      config_hash.each do |k, v|
+        config.send :"#{k}=", v
+      end
+    }
+    Then { config.to_hash == config_hash }
+  end
 end
