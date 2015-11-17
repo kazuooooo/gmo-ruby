@@ -87,10 +87,9 @@ module GMO
     #
     # @return [String] 送信データBODY
     def self.dump(payload)
-      payload.
-        map{ |k, v| "#{KEY_TO_PAYLOAD[k]}=#{v}" if KEY_TO_PAYLOAD.key?(k) }.
-        compact.
-        join('&')
+      URI.encode_www_form(Hash[payload.
+        map{ |k, v| [KEY_TO_PAYLOAD[k] || k, v] }
+      ])
     end
 
     # レスポンスのBODYデータを読み込み、オブジェクトにして返却
@@ -99,13 +98,8 @@ module GMO
     #
     # @return [GMO::Payload] 受信データBODY
     def self.load(payload)
-      flatten_array = payload.split('&').
-        map{ |kv| kv.split('=', 2) }.
-        flatten.
-        map{ |d| URI.unescape(d) }
-      self[Hash[*flatten_array].
-        map{ |k, v| [PAYLOAD_TO_KEY[k], v] if PAYLOAD_TO_KEY.key?(k) }.
-        compact
+      self[URI.decode_www_form(payload).
+        map{ |k, v| [PAYLOAD_TO_KEY[k], v] if PAYLOAD_TO_KEY.key?(k) }
       ]
     end
   end
