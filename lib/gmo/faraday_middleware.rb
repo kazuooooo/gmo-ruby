@@ -22,11 +22,10 @@ module GMO
       req_env[:body] = GMO::Payload.dump(req_env[:body]) if req_env[:body]
       @app.call(req_env).on_complete do |res_env|
         if res_env[:body]
-          res_env[:body] = GMO::Payload.load(res_env[:body])
+          body = res_env[:body] = GMO::Payload.load(res_env[:body])
 
           if options[:raise_on_gmo_error]
-            body = res_env[:body]
-            if body[:err_code] || body[:err_info]
+            if body.err_code? || body.err_info?
               raise GMO::Errors.new(body[:err_code], body[:err_info])
             end
           end

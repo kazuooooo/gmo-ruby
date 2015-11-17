@@ -1,5 +1,7 @@
 module GMO
-  class Payload
+  class Payload < Hash
+    include Hashie::Extensions::MethodAccessWithOverride
+
     # Rubyハッシュキー→送信データ変換テーブル
     KEY_TO_PAYLOAD = {
       amount:            'Amount',          # 利用金額
@@ -81,7 +83,7 @@ module GMO
 
     # ハッシュをGMOのリクエストBODY形式に変換
     #
-    # @param [Hash] payload 送信データBODY
+    # @param [Hash|GMO::Payload] payload 送信データBODY
     #
     # @return [String] 送信データBODY
     def self.dump(payload)
@@ -95,13 +97,13 @@ module GMO
     #
     # @param [String] payload 受信データBODY
     #
-    # @return [Hash] 受信データBODY
+    # @return [GMO::Payload] 受信データBODY
     def self.load(payload)
       flatten_array = payload.split('&').
         map{ |kv| kv.split('=', 2) }.
         flatten.
         map{ |d| URI.unescape(d) }
-      Hash[Hash[*flatten_array].
+      self[Hash[*flatten_array].
         map{ |k, v| [PAYLOAD_TO_KEY[k], v] if PAYLOAD_TO_KEY.key?(k) }.
         compact
       ]
