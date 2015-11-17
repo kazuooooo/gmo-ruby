@@ -1,10 +1,10 @@
 module GMO
   class FaradayMiddleware < Faraday::Middleware
-    # @return [Hash] 設定情報
+    # @return [GMO::Configuration] 設定情報
     # @see GMO::Configuration
     attr_accessor :options
 
-    # @param [Hash] options オプション
+    # @param [Hash|GMO::Configuration] options オプション
     #
     # @option options [Boolean] :raise_on_gmo_error
     #   GMOのレスポンスがエラーの場合に{GMO::Errors}を発生させるかどうか
@@ -12,7 +12,7 @@ module GMO
     # @see GMO::Configuration
     def initialize(app, options = nil)
       super app
-      @options = GMO.config.to_hash.merge(options || {})
+      @options = GMO.config.merge(options || {})
     end
 
     # リクエスト/レスポンスのハンドリング

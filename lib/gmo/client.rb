@@ -1,10 +1,10 @@
 module GMO
   class Client
-    # @return [Hash] 設定情報
+    # @return [GMO::Configuration] 設定情報
     # @see GMO::Configuration
     attr_accessor :options
 
-    # @param [Hash] options オプション
+    # @param [Hash|GMO::Configuration] options オプション
     #
     # @option options [String] :url エンドポイントURL
     # @option options [Hash] :headers HTTPヘッダ
@@ -17,7 +17,7 @@ module GMO
     # @see GMO::Configuration
     # @see Faraday#new
     def initialize(options = nil)
-      @options = GMO.config.to_hash.merge(options || {})
+      @options = GMO.config.merge(options || {})
     end
 
     # 取引登録
@@ -637,24 +637,16 @@ module GMO
 
     private
 
-    # @return [Hash] 通信コネクション用のオプション
-    def connection_options
-      options.
-        select{ |k, _| ![:raise_on_gmo_error].include?(k) }
-    end
-
-    # @return [Hash] {GMO::FaradayMiddleware}用のオプション
-    def middleware_options
-      options.
-        select{ |k, _| [:raise_on_gmo_error].include?(k) }
-    end
-
     # @return [Faraday::Connection] 通信コネクション
     def conn
-      @conn ||= Faraday.new(connection_options) { |conn|
-        conn.use     GMO::FaradayMiddleware, middleware_options
-        conn.adapter Faraday.default_adapter
-      }
+      @conn ||= (
+        connection_options = options.
+          select{ |k, _| Faraday::ConnectionOptions.members.include?(k) }
+        Faraday.new(connection_options) { |conn|
+          conn.use     GMO::FaradayMiddleware, options
+          conn.adapter Faraday.default_adapter
+        }
+      )
     end
   end
 end
