@@ -102,5 +102,20 @@ module GMO
         map{ |k, v| [PAYLOAD_TO_KEY[k], v] if PAYLOAD_TO_KEY.key?(k) }
       ]
     end
+
+    # エラーがあるか判定
+    #
+    # @return [Boolean] エラーがあるかどうか
+    def error?
+      !!(err_code? || err_info?)
+    end
+
+    # エラーがある場合、{GMO::Errors}を返す
+    #
+    # @return [GMO::Errors] エラー情報
+    # @return [nil] エラーがない場合
+    def errors
+      GMO::Errors.new(self[:err_code], self[:err_info]) if error?
+    end
   end
 end
