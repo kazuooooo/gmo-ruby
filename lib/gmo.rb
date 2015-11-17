@@ -1,4 +1,5 @@
 require "faraday"
+require "hashie"
 
 require "gmo/version"
 require "gmo/consts"
@@ -10,23 +11,30 @@ require "gmo/payload"
 module GMO
   include Consts
 
-  class Configuration
-    # @return [String] エンドポイントURL
-    attr_accessor :url
+  class Configuration < Hashie::Trash
+    # @!attribute url
+    #   @return [String] エンドポイントURL
+    property :url
 
-    # @return [Hash] HTTPヘッダ
-    attr_accessor :headers
+    # @!attribute headers
+    #   @return [Hash] HTTPヘッダ
+    property :headers
 
-    # @return [Hash] リクエストオプション
+    # @!attribute request
+    #   @return [Hash] リクエストオプション
     #
     # @example リクエストタイムアウトを設定する
     #   config.request = {
     #     timeout:      ..., # 通信タイムアウト(秒)
     #     open_timeout: ..., # 接続タイムアウト(秒)
     #   }
-    attr_accessor :request
+    property :request,
+      default: {
+        timeout: 90, # 90秒（本人認証サービスを利用する場合は120秒程度を推奨）
+      }
 
-    # @return [Hash] SSLオプション
+    # @!attribute ssl
+    #   @return [Hash] SSLオプション
     #
     # @example SSLを無効にする
     #   config.ssl = false
@@ -42,9 +50,10 @@ module GMO
     #     ca_path:     ...,
     #     cert_store:  ...,
     #   }
-    attr_accessor :ssl
+    property :ssl
 
-    # @return [Hash] プロキシオプション
+    # @!attribute proxy
+    #   @return [Hash] プロキシオプション
     #
     # @example プロキシを設定する
     #   config.proxy = {
@@ -52,38 +61,12 @@ module GMO
     #     user:     ..., # optional
     #     password: ..., # optional
     #   }
-    attr_accessor :proxy
+    property :proxy
 
-    # @return [Boolean] GMOのレスポンスがエラーの場合に{GMO::Errors}を発生させるかどうか
-    attr_accessor :raise_on_gmo_error
-
-    def initialize
-      self.class.default_values.each do |name, value|
-        instance_variable_set :"@#{name}", value
-      end
-    end
-
-    # 設定情報のデフォルト値を取得
-    #
-    # @return [Hash] 設定情報のデフォルト値
-    def self.default_values
-      {
-        request: {
-          timeout: 90, # 90秒（本人認証サービスを利用する場合は120秒程度を推奨）
-        },
-        raise_on_gmo_error: true,
-      }
-    end
-
-    # Hashオブジェクトに変換
-    #
-    # @return [Hash] Hashオブジェクトの設定情報
-    def to_hash
-      instance_variables.each_with_object({}) { |instance_variable_name, config|
-        property = instance_variable_name.to_s.gsub(/@/, '').to_sym
-        config[property] = send(property)
-      }
-    end
+    # @!attribute raise_on_gmo_error
+    #   @return [Boolean] GMOのレスポンスがエラーの場合に{GMO::Errors}を発生させるかどうか
+    property :raise_on_gmo_error, required: true, default: true,
+      transform_with: ->(v) { !!v }
   end
 
   # 設定情報を取得

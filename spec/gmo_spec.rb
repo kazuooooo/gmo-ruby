@@ -21,11 +21,7 @@ describe GMO::Configuration do
   Given(:config) { described_class.new }
 
   context '#initialize' do
-    Then {
-      described_class.default_values.each do |prop, value|
-        expect(config.send(prop)).to eq(value)
-      end
-    }
+    Then { config == described_class.defaults }
   end
 
   context '#to_hash' do
@@ -47,11 +43,7 @@ describe GMO::Configuration do
         password: 'dummypassword',
       },
     } }
-    When {
-      config_hash.each do |k, v|
-        config.send :"#{k}=", v
-      end
-    }
-    Then { config.to_hash == described_class.default_values.merge(config_hash) }
+    When { config.merge!(config_hash) }
+    Then { config.to_hash == described_class.defaults.merge(config_hash) }
   end
 end
