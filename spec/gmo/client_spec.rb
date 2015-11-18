@@ -820,4 +820,22 @@ describe GMO::Client do
       end
     end
   end
+
+  context 'with :logger and :logger_option options' do
+    Given(:logger) { double('Mock logger') }
+    Given(:client_options) { {
+      url:           stub_url,
+      logger:        logger,
+      logger_option: {bodies: true},
+    } }
+    When {
+      stub_request(:post, "#{stub_url}/payment/EntryTran.idPass").
+        to_return(status: 200)
+    }
+    Then {
+      expect(logger).to receive(:debug).at_least(:once)
+      expect(logger).to receive(:info).at_least(:once)
+      client.entry_tran({})
+    }
+  end
 end

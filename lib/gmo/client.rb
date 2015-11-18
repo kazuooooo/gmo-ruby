@@ -13,6 +13,8 @@ module GMO
     # @option options [Hash] :proxy プロキシオプション
     # @option options [Boolean] :raise_on_gmo_error
     #   GMOのレスポンスがエラーの場合に{GMO::Errors}を発生させるかどうか
+    # @option options [Logger] :logger ロガー
+    # @option options [Hash] :logger_option ロガーオプション
     #
     # @see GMO::Configuration
     # @see Faraday#new
@@ -644,6 +646,11 @@ module GMO
           select{ |k, _| Faraday::ConnectionOptions.members.include?(k) }
         Faraday.new(connection_options) { |conn|
           conn.use     GMO::FaradayMiddleware, options
+
+          if options[:logger]
+            conn.response :logger, options[:logger], options[:logger_option]
+          end
+
           conn.adapter Faraday.default_adapter
         }
       )

@@ -67,6 +67,17 @@ module GMO
     #   @return [Boolean] GMOのレスポンスがエラーの場合に{GMO::Errors}を発生させるかどうか
     property :raise_on_gmo_error, required: true, default: true,
       transform_with: ->(v) { !!v }
+
+    # @!attribute logger
+    #   @return [Logger] ロガー
+    property :logger
+
+    # @!attribute logger_option
+    #   @return [Hash] ロガーオプション
+    #
+    # @example リクエスト/レスポンスのボディ情報を出力する(デバッグ用)
+    #   config.logger_option = {bodies: true}
+    property :logger_option
   end
 
   # 設定情報を取得
